@@ -1,0 +1,12 @@
+# Tax documents — never commit real returns (contain PII)
+TaxFiles/
+*.pdf
+
+# Python virtual environment
+.venv/
+
+# macOS
+.DS_Store
+
+# Claude
+.claude/

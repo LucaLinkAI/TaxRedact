@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+# RedactTaxCLI launcher — ensures a local venv with PyMuPDF, then runs the CLI.
+set -euo pipefail
+DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+VENV="$DIR/.venv"
+PYBIN="$VENV/bin/python"
+
+if [[ ! -x "$PYBIN" ]] || ! "$PYBIN" -c 'import fitz' 2>/dev/null; then
+  echo ">> RedactTaxCLI: setting up Python environment (one-time)..." >&2
+  python3 -m venv "$VENV"
+  "$VENV/bin/pip" install --quiet --upgrade pip
+  "$VENV/bin/pip" install --quiet pymupdf
+fi
+
+exec "$PYBIN" "$DIR/redacttaxcli.py" "$@"
