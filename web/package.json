@@ -1,0 +1,19 @@
+{
+  "name": "tax-pdf-redactor-web",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Client-side tax-PDF PII redactor (mupdf.js / WASM) — static site for Cloudflare Pages",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test:node": "node test/node_check.mjs"
+  },
+  "dependencies": {
+    "mupdf": "^1.27.0"
+  },
+  "devDependencies": {
+    "vite": "^5.4.0"
+  }
+}

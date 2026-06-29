@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tax PDF Redactor — runs in your browser</title>
+<style>
+  :root { color-scheme: light dark; }
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    margin: 0; min-height: 100vh; display: grid; place-items: center;
+    background: linear-gradient(135deg, #1e293b, #0f172a); color: #e2e8f0;
+    padding: 24px;
+  }
+  .card {
+    width: 100%; max-width: 560px; background: #1e293b;
+    border: 1px solid #334155; border-radius: 16px; padding: 32px;
+    box-shadow: 0 20px 50px rgba(0,0,0,.4);
+  }
+  h1 { margin: 0 0 4px; font-size: 1.5rem; }
+  .sub { margin: 0 0 20px; color: #94a3b8; font-size: .9rem; line-height: 1.5; }
+  .badge {
+    display: inline-block; margin: 0 0 20px; padding: 4px 10px; border-radius: 999px;
+    background: #064e3b; border: 1px solid #059669; color: #6ee7b7;
+    font-size: .75rem; font-weight: 600;
+  }
+  .drop {
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+    border: 2px dashed #475569; border-radius: 12px; padding: 40px 20px;
+    text-align: center; cursor: pointer; transition: .15s; background: #0f172a;
+  }
+  .drop.hover { border-color: #38bdf8; background: #0c4a6e33; }
+  .drop strong { color: #38bdf8; }
+  .drop p { margin: 0; color: #94a3b8; font-size: .85rem; }
+  #file { display: none; }
+  .name { margin: 0; font-size: .9rem; color: #e2e8f0; word-break: break-all; }
+  .name:empty { display: none; }
+  button {
+    margin-top: 20px; width: 100%; padding: 14px; border: 0; border-radius: 10px;
+    background: #38bdf8; color: #07223a; font-size: 1rem; font-weight: 700;
+    cursor: pointer; transition: .15s;
+  }
+  button:disabled { background: #334155; color: #64748b; cursor: not-allowed; }
+  button:not(:disabled):hover { background: #7dd3fc; }
+  .note { margin-top: 18px; font-size: .78rem; color: #64748b; line-height: 1.5; }
+  .status { margin-top: 16px; padding: 12px 14px; border-radius: 8px; font-size: .85rem;
+            line-height: 1.5; display: none; }
+  .status.show { display: block; }
+  .status.ok { background: #064e3b66; border: 1px solid #059669; color: #6ee7b7; }
+  .status.warn { background: #78350f55; border: 1px solid #d97706; color: #fcd34d; }
+  .status.err { background: #7f1d1d55; border: 1px solid #b91c1c; color: #fca5a5; }
+  .status.busy { background: #0c4a6e55; border: 1px solid #0284c7; color: #7dd3fc; }
+</style>
+</head>
+<body>
+  <div class="card">
+    <h1>🛡️ Tax PDF Redactor</h1>
+    <span class="badge">🔒 100% private — your file never leaves this device</span>
+    <p class="sub">Upload a tax-return PDF. Detected PII (SSN, EIN, names, address,
+       phone, email, account numbers) is <em>physically</em> removed and a redacted
+       copy downloads automatically. All processing happens right here in your
+       browser — nothing is uploaded to any server.</p>
+
+    <label class="drop" id="drop" for="file">
+      <strong>Choose a PDF</strong> or drag &amp; drop it here
+      <p>Standard 1040 returns work best</p>
+      <div class="name" id="name"></div>
+    </label>
+    <input type="file" id="file" accept="application/pdf,.pdf">
+    <button id="go" disabled>Redact &amp; download</button>
+
+    <div class="status" id="status"></div>
+
+    <p class="note">⚠️ Redaction is heuristic — always review the output before
+       sharing, especially for non-standard or scanned (image-based) PDFs, where
+       text can't be searched.</p>
+  </div>
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
