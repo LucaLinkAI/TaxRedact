@@ -7,6 +7,7 @@
 <style>
   :root { color-scheme: light dark; }
   * { box-sizing: border-box; }
+  html { background: #0f172a; }
   body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     margin: 0; min-height: 100vh; display: grid; place-items: center;
@@ -83,6 +84,26 @@
   button[hidden] { display: none; }
   .note { margin-top: 18px; font-size: .78rem; color: #64748b; line-height: 1.5;
           display: flex; gap: 8px; }
+  .term { margin-top: 24px; padding-top: 20px; border-top: 1px solid #334155; }
+  .term h2 { margin: 0 0 6px; font-size: 1rem; display: flex; align-items: center; gap: 8px; }
+  .term h2 svg.i { color: #38bdf8; }
+  .term p { margin: 0 0 12px; color: #94a3b8; font-size: .85rem; line-height: 1.5; }
+  .term p a, .term li a { color: #38bdf8; }
+  .term ol { margin: 0 0 12px; padding-left: 20px; color: #94a3b8; font-size: .85rem; line-height: 1.6; }
+  .term .dl { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+  .term .dl a {
+    display: inline-flex; align-items: center; gap: 6px; padding: 8px 12px; border-radius: 8px;
+    border: 1px solid #475569; color: #e2e8f0; text-decoration: none; font-size: .82rem; font-weight: 600;
+  }
+  .term .dl a:hover { border-color: #38bdf8; color: #38bdf8; }
+  .term .dl small { color: #64748b; font-weight: 400; }
+  .cmd { display: flex; align-items: center; gap: 8px; background: #0f172a; border: 1px solid #334155;
+         border-radius: 8px; padding: 8px 8px 8px 12px; margin: 4px 0 10px; }
+  .cmd code { flex: 1; min-width: 0; overflow-x: auto; white-space: nowrap; font-size: .78rem;
+              color: #e2e8f0; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+  .cmd button { width: auto; margin: 0; padding: 6px; background: none; color: #94a3b8;
+                border: 1px solid #334155; border-radius: 6px; font-size: .85rem; }
+  .cmd button:not(:disabled):hover { background: none; color: #38bdf8; border-color: #38bdf8; }
   .status { margin-top: 16px; padding: 12px 14px; border-radius: 8px; font-size: .85rem;
             line-height: 1.5; display: none; }
   .status.show { display: block; }
@@ -126,6 +147,26 @@
     <p class="note"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg><span>Redaction is heuristic — always review the output before
        sharing, especially for non-standard or scanned (image-based) PDFs, where
        text can't be searched.</span></p>
+
+    <section class="term" id="term">
+      <h2><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19h8"/><path d="m4 17 6-6-6-6"/></svg>Command-line version <span id="cliVer" style="color:#64748b;font-weight:400"></span></h2>
+      <p>Same engine, for your terminal: redact many files or whole folder trees
+         (recursively) in one command. Runs locally, just like this page.
+         Needs <a href="https://nodejs.org/" target="_blank" rel="noopener">Node.js 20+</a>.</p>
+      <div class="dl">
+        <a id="dlTgz" href="#"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg>npm package (.tgz) <small>~5 MB</small></a>
+        <a id="dlZip" href="#"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg>Portable (.zip) <small>~5 MB</small></a>
+      </div>
+      <ol>
+        <li>Install once (adds the <code>redacttax</code> command):
+          <div class="cmd"><code id="cmdInstall"></code><button type="button" data-copy="cmdInstall" title="Copy"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c0-1.1.9-2 2-2h2"/><path d="M4 8c0-1.1.9-2 2-2h8c1.1 0 2 .9 2 2"/></svg></button></div></li>
+        <li>Redact a folder and everything under it:
+          <div class="cmd"><code id="cmdRun">redacttax TaxFiles/ -r -o Redacted/</code><button type="button" data-copy="cmdRun" title="Copy"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c0-1.1.9-2 2-2h2"/><path d="M4 8c0-1.1.9-2 2-2h8c1.1 0 2 .9 2 2"/></svg></button></div></li>
+      </ol>
+      <p>No npm? Unzip the portable version and run
+         <code>node redacttax/redacttax.mjs TaxFiles/ -r</code>.
+         Run <code>redacttax --help</code> for all options.</p>
+    </section>
   </div>
   <script type="module" src="/src/main.js"></script>
 </body>

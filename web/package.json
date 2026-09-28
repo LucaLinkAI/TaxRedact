@@ -8,7 +8,8 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "test:node": "node test/node_check.mjs"
+    "test:node": "node test/node_check.mjs",
+    "prebuild": "cd ../cli && npm install --no-audit --no-fund --silent && npm run -s build"
   },
   "dependencies": {
     "fflate": "^0.8.3",

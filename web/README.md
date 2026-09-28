@@ -33,6 +33,15 @@ download link, and **Download all (.zip)** keeps the folder structure.
 - Redactions are **physically applied** (`applyRedactions`), then the output is
   re-opened and searched to verify no detected PII remains in the text layer
 
+## Command-line download
+
+The page also offers the terminal version (`../cli`) as a download
+(`/downloads/redacttax-<version>.tgz` and `.zip`). `npm run build` runs a
+`prebuild` step that installs `cli/` and runs its bundler, which writes
+those files to `public/downloads/` (gitignored, generated). If you use Git
+integration, keep the Pages build command as `npm run build` and the prebuild
+handles it.
+
 ## Develop locally
 
 ```bash

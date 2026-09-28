@@ -2,14 +2,20 @@
 // redacttax — terminal front end (React/Ink) for the tax-PDF PII redactor.
 // The engine is the same web/src/redact.js the browser app uses, so detection
 // stays in sync with the web app (and, by convention, redacttaxcli.py).
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import React from "react";
 import { render } from "ink";
 import App from "./App.js";
 import { collectJobs, parseArgs } from "./files.js";
 
-const pkg = JSON.parse(readFileSync(new URL("../package.json", import.meta.url)));
-const helpText = () => readFileSync(new URL("../HELP.md", import.meta.url), "utf8");
+// HELP.md / package.json sit next to the bundled build (dist/), or one level
+// up when running from src/.
+const bundled = (name) => {
+  const here = new URL(`./${name}`, import.meta.url);
+  return existsSync(here) ? here : new URL(`../${name}`, import.meta.url);
+};
+const pkg = JSON.parse(readFileSync(bundled("package.json")));
+const helpText = () => readFileSync(bundled("HELP.md"), "utf8");
 
 let opts;
 try {

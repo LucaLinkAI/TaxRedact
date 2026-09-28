@@ -5,6 +5,7 @@
 // fetched until someone actually redacts a file.
 import { zipSync } from "fflate";
 import { detectLearned, redactPdf } from "./redact.js";
+import { version as cliVersion } from "../../cli/package.json";
 
 const $ = (id) => document.getElementById(id);
 const drop = $("drop");
@@ -237,5 +238,23 @@ go.addEventListener("click", async () => {
   setStatus(failed || warn ? "warn" : "ok", summary + next +
     (done.length ? " Review each output before sharing." : ""));
 });
+
+// --- command-line download section ---------------------------------------------
+// Files are produced by `npm run build` in cli/ (web's prebuild runs it).
+{
+  const base = new URL(`downloads/redacttax-${cliVersion}`, location.href).href;
+  $("cliVer").textContent = `v${cliVersion}`;
+  $("dlTgz").href = `${base}.tgz`;
+  $("dlZip").href = `${base}.zip`;
+  $("cmdInstall").textContent = `npm install -g ${base}.tgz`;
+  document.querySelectorAll("[data-copy]").forEach((btn) =>
+    btn.addEventListener("click", async () => {
+      try {
+        await navigator.clipboard.writeText($(btn.dataset.copy).textContent);
+        btn.style.color = "#6ee7b7";
+        setTimeout(() => { btn.style.color = ""; }, 1200);
+      } catch { /* clipboard unavailable: the text is still selectable */ }
+    }));
+}
 
 render();

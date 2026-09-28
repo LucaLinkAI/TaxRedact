@@ -40,7 +40,12 @@ changes with `--dry-run` against a sample PDF.
 ```bash
 cd cli && npm install
 node src/cli.js TaxFiles/ -r -o Clean/    # files and/or folders; --help prints HELP.md
+npm run build                             # bundle -> dist/ + .tgz/.zip into web/public/downloads/
 ```
+`web`'s `prebuild` runs the cli build, so the site always serves the current CLI
+download. esbuild stubs `react-devtools-core`: Ink imports it statically, and
+the bundle breaks without the stub. Test the `.tgz` by installing it outside
+the repo, never only from inside it.
 
 ### Web
 ```bash

@@ -13,6 +13,18 @@ single batch, with a live per-file progress list.
 
 Requires Node.js 20 or newer.
 
+**Prebuilt (for users):** the web app offers a download under "Command-line
+version", and it installs with one command:
+
+```bash
+npm install -g https://tax-pdf-redactor.pages.dev/downloads/redacttax-1.1.0.tgz
+```
+
+The portable `.zip` from the same page needs no npm at all: unzip it and run
+`node redacttax/redacttax.mjs ...`.
+
+**From source (for development):**
+
 ```bash
 cd cli
 npm install
@@ -61,11 +73,26 @@ The full option list, including what gets redacted and the exit codes, is in
    value is still in the text layer. Any file with a leftover value is flagged
    and the exit code is 1.
 
+## Packaging and publishing
+
+```bash
+npm run build     # scripts/build.mjs
+```
+
+This bundles everything with esbuild into `dist/redacttax/`: one
+`redacttax.mjs` with no runtime dependencies, plus `mupdf-wasm.wasm`, the docs
+and a minimal `package.json`. It then writes `redacttax-<version>.tgz`
+(`npm pack`) and `.zip` to `../web/public/downloads/`. `web`'s `prebuild`
+runs this automatically, so `npm run build` in `web/` and a normal deploy
+always ship the current CLI. To release a new version, bump `version` in
+`cli/package.json`; the page reads it at build time.
+
 ## Files
 
 - `src/cli.js`: entry point, argument handling, `--help` / `--version`
 - `src/files.js`: option parsing and file/folder expansion (recursive walk)
 - `src/App.js`: the Ink UI and the two-pass batch runner
+- `scripts/build.mjs`: bundle + pack + publish into the web app's downloads
 - `HELP.md`: the help file shown by `--help`
 
 The CLI has no detection logic of its own. Change detection in
