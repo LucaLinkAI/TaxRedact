@@ -247,6 +247,10 @@ go.addEventListener("click", async () => {
   $("dlTgz").href = `${base}.tgz`;
   $("dlZip").href = `${base}.zip`;
   $("cmdInstall").textContent = `npm install -g ${base}.tgz`;
+  $("macInstall").textContent = `npm install -g ${base}.tgz`;
+  $("macSudo").textContent = `sudo npm install -g ${base}.tgz`;
+  // Open the Mac guide by default for Mac visitors.
+  if (/Mac/.test(navigator.platform || navigator.userAgent)) $("macGuide").open = true;
   document.querySelectorAll("[data-copy]").forEach((btn) =>
     btn.addEventListener("click", async () => {
       try {

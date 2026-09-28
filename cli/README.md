@@ -23,6 +23,28 @@ npm install -g https://tax-pdf-redactor.pages.dev/downloads/redacttax-1.1.0.tgz
 The portable `.zip` from the same page needs no npm at all: unzip it and run
 `node redacttax/redacttax.mjs ...`.
 
+### Mac, step by step
+
+1. **Install Node.js** (one time): download the macOS LTS installer (.pkg)
+   from <https://nodejs.org/> and double-click it. Homebrew users can run
+   `brew install node` instead.
+2. **Open Terminal**: `Cmd` + `Space`, type *Terminal*, then `Return`.
+   Run `node -v` and check that it prints v20 or higher.
+3. **Install redacttax**:
+   ```bash
+   npm install -g https://tax-pdf-redactor.pages.dev/downloads/redacttax-1.1.0.tgz
+   ```
+   If you get `EACCES: permission denied` (common with the nodejs.org
+   installer), put `sudo ` in front of that command and enter your Mac login
+   password. Nothing appears on screen while you type it.
+4. **Check it worked**: `redacttax --help`
+5. **Redact a folder**: type `redacttax -r ` (with a trailing space), drag the
+   folder from Finder into the Terminal window to fill in its path, then press
+   `Return`. Every PDF inside, including subfolders, gets a `_redacted.pdf` copy
+   next to it. Add `--dry-run` to only list what would be removed.
+6. **Update** by re-running step 3. **Uninstall** with
+   `npm uninstall -g redacttax` (use `sudo` if you installed with it).
+
 **From source (for development):**
 
 ```bash
