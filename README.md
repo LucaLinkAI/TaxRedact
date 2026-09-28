@@ -18,7 +18,18 @@ output text layer.
   - Bank account / routing numbers (runs of 9–17 digits)
 - **1040 header fields by form layout:**
   - taxpayer & spouse first/last names, home street, city, ZIP
-  - names are chased through every page (they repeat in e-file headers)
+- **Schedule K-1 recipient** (partner / shareholder / beneficiary): name,
+  street, city, ZIP (both the 2025+ separate-field layout and the older
+  combined "name, address, city, state, and ZIP code" box)
+- **Letter-style address blocks** (e.g. a K-1 package cover letter):
+  `Name / street / City, ST ZIP`
+- Every name and address found is then chased through every page: the full
+  string, and also **each name word on its own** (so "Dear Kevin" is caught).
+  Single words only match whole, capitalized words, so a name like "Will"
+  doesn't remove the verb "will". Business names (such as the partnership on a
+  K-1) and dollar amounts are kept.
+- **Batches share what they learn:** names/addresses found in any file are
+  redacted in every file of the run (`--no-share` to turn off).
 
 Public agency numbers (IRS hotlines) and blank-EIN placeholders are
 whitelisted so they aren't flagged as PII.
@@ -55,9 +66,18 @@ safe and idempotent. Add `-r/--recursive` to descend into subdirectories.
 | `-r, --recursive` | Recurse into subdirectories of any input directory |
 | `--suffix` | Suffix for batch outputs (default: `_redacted`) |
 | `--dry-run` | Report detected PII without writing files |
+| `--no-share` | Don't reuse names/addresses found in one file of a batch for the others |
 | `--no-verify` | Skip the post-redaction text-layer leak check |
 | `-q, --quiet` | Suppress per-file reports |
 | `--version` | Print version and exit |
+
+## Other front ends
+
+- **`web/`**: browser app (mupdf.js/WASM, Cloudflare Pages). Drop many PDFs or
+  whole folders at once; download each result or a zip. See [web/README.md](web/README.md).
+- **`cli/`**: `redacttax`, a Node terminal app built with React (Ink) on the
+  same engine as the web app. Handles files and folders (`-r`). See
+  [cli/README.md](cli/README.md) and [cli/HELP.md](cli/HELP.md).
 
 ## Files
 
@@ -70,7 +90,8 @@ safe and idempotent. Add `-r/--recursive` to descend into subdirectories.
 
 ## How it works
 
-1. Detect regex-shaped PII and extract 1040 header fields by their position.
+1. Detect regex-shaped PII, and extract names/addresses from the 1040 header,
+   K-1 recipient block and letter address blocks by their position.
 2. Add redaction annotations for every match (longest strings first, so a full
    value wins over a substring).
 3. `apply_redactions()` physically removes the underlying content and draws the
@@ -80,6 +101,6 @@ safe and idempotent. Add `-r/--recursive` to descend into subdirectories.
 
 ## Notes
 
-⚠️ Always review the output. Redaction is heuristic — confirm that nothing
+Always review the output. Redaction is heuristic — confirm that nothing
 sensitive remains, especially for non-standard or scanned (image-based) PDFs,
 where text search cannot find the PII.

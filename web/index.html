@@ -11,39 +11,78 @@
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     margin: 0; min-height: 100vh; display: grid; place-items: center;
     background: linear-gradient(135deg, #1e293b, #0f172a); color: #e2e8f0;
-    padding: 24px;
+    padding: 24px 16px;
   }
+  svg.i { width: 1em; height: 1em; flex: none; vertical-align: -0.15em; }
   .card {
-    width: 100%; max-width: 560px; background: #1e293b;
+    width: 100%; max-width: 640px; background: #1e293b;
     border: 1px solid #334155; border-radius: 16px; padding: 32px;
     box-shadow: 0 20px 50px rgba(0,0,0,.4);
   }
-  h1 { margin: 0 0 4px; font-size: 1.5rem; }
+  @media (max-width: 480px) { .card { padding: 20px; } }
+  h1 { margin: 0 0 4px; font-size: 1.5rem; display: flex; align-items: center; gap: 10px; }
+  h1 svg.i { color: #38bdf8; }
   .sub { margin: 0 0 20px; color: #94a3b8; font-size: .9rem; line-height: 1.5; }
   .badge {
-    display: inline-block; margin: 0 0 20px; padding: 4px 10px; border-radius: 999px;
+    display: inline-flex; align-items: center; gap: 6px; margin: 0 0 20px;
+    padding: 4px 10px; border-radius: 999px;
     background: #064e3b; border: 1px solid #059669; color: #6ee7b7;
     font-size: .75rem; font-weight: 600;
   }
   .drop {
     display: flex; flex-direction: column; align-items: center; gap: 8px;
-    border: 2px dashed #475569; border-radius: 12px; padding: 40px 20px;
+    border: 2px dashed #475569; border-radius: 12px; padding: 32px 20px;
     text-align: center; cursor: pointer; transition: .15s; background: #0f172a;
   }
   .drop.hover { border-color: #38bdf8; background: #0c4a6e33; }
   .drop strong { color: #38bdf8; }
   .drop p { margin: 0; color: #94a3b8; font-size: .85rem; }
-  #file { display: none; }
-  .name { margin: 0; font-size: .9rem; color: #e2e8f0; word-break: break-all; }
-  .name:empty { display: none; }
+  .drop .big { font-size: 2rem; color: #475569; }
+  .pick { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin-top: 4px; }
+  .link {
+    background: none; border: 1px solid #475569; color: #cbd5e1; border-radius: 8px;
+    padding: 6px 12px; font-size: .8rem; cursor: pointer; width: auto; margin: 0;
+    font-weight: 600; display: inline-flex; align-items: center; gap: 6px;
+  }
+  .link:hover { border-color: #38bdf8; color: #38bdf8; background: none; }
+  input[type=file] { display: none; }
+  .files { list-style: none; margin: 16px 0 0; padding: 0; max-height: 320px; overflow: auto;
+           border: 1px solid #334155; border-radius: 10px; }
+  .files:empty { display: none; }
+  .files li { display: flex; align-items: flex-start; gap: 10px; padding: 10px 12px;
+              border-top: 1px solid #334155; font-size: .85rem; }
+  .files li:first-child { border-top: 0; }
+  .files .ic { padding-top: 2px; color: #64748b; }
+  .files .ok .ic { color: #6ee7b7; }
+  .files .warn .ic { color: #fcd34d; }
+  .files .err .ic { color: #fca5a5; }
+  .files .busy .ic { color: #38bdf8; }
+  .files .busy .ic svg { animation: spin 1s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .files .body { flex: 1; min-width: 0; }
+  .files .fn { word-break: break-all; color: #e2e8f0; }
+  .files .meta { color: #94a3b8; font-size: .78rem; margin-top: 2px; }
+  .files a { color: #38bdf8; font-size: .8rem; white-space: nowrap; display: inline-flex;
+             align-items: center; gap: 4px; text-decoration: none; }
+  .files a:hover { text-decoration: underline; }
+  .files .x { background: none; border: 0; color: #64748b; padding: 0; width: auto; margin: 0;
+              cursor: pointer; font-size: 1rem; }
+  .files .x:hover { color: #fca5a5; background: none; }
+  .row { display: flex; gap: 10px; margin-top: 20px; }
+  .row button { margin: 0; }
   button {
-    margin-top: 20px; width: 100%; padding: 14px; border: 0; border-radius: 10px;
+    width: 100%; padding: 14px; border: 0; border-radius: 10px;
     background: #38bdf8; color: #07223a; font-size: 1rem; font-weight: 700;
-    cursor: pointer; transition: .15s;
+    cursor: pointer; transition: .15s; display: inline-flex; align-items: center;
+    justify-content: center; gap: 8px;
   }
   button:disabled { background: #334155; color: #64748b; cursor: not-allowed; }
   button:not(:disabled):hover { background: #7dd3fc; }
-  .note { margin-top: 18px; font-size: .78rem; color: #64748b; line-height: 1.5; }
+  button.secondary { background: #0f172a; color: #e2e8f0; border: 1px solid #475569; }
+  button.secondary:not(:disabled):hover { background: #1e293b; border-color: #38bdf8; }
+  button[hidden] { display: none; }
+  .note { margin-top: 18px; font-size: .78rem; color: #64748b; line-height: 1.5;
+          display: flex; gap: 8px; }
   .status { margin-top: 16px; padding: 12px 14px; border-radius: 8px; font-size: .85rem;
             line-height: 1.5; display: none; }
   .status.show { display: block; }
@@ -55,26 +94,38 @@
 </head>
 <body>
   <div class="card">
-    <h1>🛡️ Tax PDF Redactor</h1>
-    <span class="badge">🔒 100% private — your file never leaves this device</span>
-    <p class="sub">Upload a tax-return PDF. Detected PII (SSN, EIN, names, address,
-       phone, email, account numbers) is <em>physically</em> removed and a redacted
-       copy downloads automatically. All processing happens right here in your
-       browser — nothing is uploaded to any server.</p>
+    <h1><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>Tax PDF Redactor</h1>
+    <span class="badge"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>100% private — your files never leave this device</span>
+    <p class="sub">Add one or many tax PDFs (1040s, K-1s, cover letters), or a whole
+       folder. Detected PII (SSN, EIN, names, addresses, phone, email, account
+       numbers) is <em>physically</em> removed. Names and addresses found in one
+       file are redacted in every file of the batch. All processing happens right
+       here in your browser — nothing is uploaded to any server.</p>
 
-    <label class="drop" id="drop" for="file">
-      <strong>Choose a PDF</strong> or drag &amp; drop it here
-      <p>Standard 1040 returns work best</p>
-      <div class="name" id="name"></div>
-    </label>
-    <input type="file" id="file" accept="application/pdf,.pdf">
-    <button id="go" disabled>Redact &amp; download</button>
+    <div class="drop" id="drop" role="button" tabindex="0">
+      <span class="big"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 13v8"/><path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"/><path d="m8 17 4-4 4 4"/></svg></span>
+      <div><strong>Drop PDFs or folders here</strong></div>
+      <p>Folders are searched recursively for .pdf files</p>
+      <div class="pick">
+        <button type="button" class="link" id="pickFiles"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/></svg>Choose files</button>
+        <button type="button" class="link" id="pickFolder"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg>Choose folder</button>
+      </div>
+    </div>
+    <input type="file" id="files" accept="application/pdf,.pdf" multiple>
+    <input type="file" id="folder" webkitdirectory multiple>
+
+    <ul class="files" id="list"></ul>
+
+    <div class="row">
+      <button id="go" disabled>Redact</button>
+      <button id="zip" class="secondary" hidden><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg>Download all (.zip)</button>
+    </div>
 
     <div class="status" id="status"></div>
 
-    <p class="note">⚠️ Redaction is heuristic — always review the output before
+    <p class="note"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg><span>Redaction is heuristic — always review the output before
        sharing, especially for non-standard or scanned (image-based) PDFs, where
-       text can't be searched.</p>
+       text can't be searched.</span></p>
   </div>
   <script type="module" src="/src/main.js"></script>
 </body>

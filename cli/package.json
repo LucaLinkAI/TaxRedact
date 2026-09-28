@@ -1,0 +1,17 @@
+{
+  "name": "redacttax",
+  "version": "1.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Terminal (React/Ink) tax-PDF PII redactor — batch files and folders, recursive",
+  "bin": { "redacttax": "src/cli.js" },
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "start": "node src/cli.js"
+  },
+  "dependencies": {
+    "ink": "^6.0.0",
+    "mupdf": "~1.28.1",
+    "react": "^19.0.0"
+  }
+}

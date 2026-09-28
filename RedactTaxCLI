@@ -5,7 +5,7 @@ DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 VENV="$DIR/.venv"
 PYBIN="$VENV/bin/python"
 
-if [[ ! -x "$PYBIN" ]] || ! "$PYBIN" -c 'import fitz' 2>/dev/null; then
+if [[ ! -x "$PYBIN" ]] || ! "$PYBIN" -c 'import pymupdf' 2>/dev/null; then
   echo ">> RedactTaxCLI: setting up Python environment (one-time)..." >&2
   python3 -m venv "$VENV"
   "$VENV/bin/pip" install --quiet --upgrade pip

@@ -16,8 +16,20 @@ Identical detection to the CLI:
 
 - Regex PII on every page: SSN/ITIN, EIN, email, phone, account/routing numbers
   (IRS hotlines and blank-EIN placeholders are whitelisted)
-- 1040 header fields by layout: taxpayer & spouse names, street, city, ZIP —
-  chased across every page
+- 1040 header fields by layout: taxpayer & spouse names, street, city, ZIP
+- Schedule K-1 recipient name/street/city/ZIP, and letter-style address blocks
+  (cover letters)
+- Names/addresses are chased across every page word by word, so a first name
+  on its own is caught too
+
+## Batch mode
+
+Drop any number of PDFs, or whole folders (searched recursively), or use
+**Choose files** / **Choose folder**. The batch runs in two passes: first every
+file is scanned for names/addresses, then each file is redacted with everything
+learned from the whole batch. That way a cover letter with no labeled fields is
+still cleaned when its K-1 is in the same batch. Each result gets its own
+download link, and **Download all (.zip)** keeps the folder structure.
 - Redactions are **physically applied** (`applyRedactions`), then the output is
   re-opened and searched to verify no detected PII remains in the text layer
 
@@ -34,6 +46,12 @@ Verify the engine against sample PDFs in Node (no browser needed):
 ```bash
 npm run test:node test/pii.pdf test/form1040.pdf
 ```
+
+The PDFs passed together are treated as one batch (shared names/addresses),
+the same way the web app and `cli/` handle them.
+
+The engine needs **mupdf ~1.28** (pinned). 1.28 changed `page.search()` to take
+an options string, and it is case-sensitive unless it is given `"ignore-case"`.
 
 Build the production bundle:
 
@@ -77,5 +95,5 @@ Wrangler will prompt you to log in to Cloudflare on first run.
   CDN serves and caches it; subsequent visits are instant.
 - No special headers (COOP/COEP) are required — this build doesn't use
   SharedArrayBuffer threads.
-- ⚠️ Redaction is heuristic. Always review the output before sharing, especially
+- Redaction is heuristic. Always review the output before sharing, especially
   for non-standard or scanned (image-based) PDFs, where text can't be searched.

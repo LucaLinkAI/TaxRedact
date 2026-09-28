@@ -2,7 +2,7 @@
 // the checks done for the Python CLI. Usage: node test/node_check.mjs <pdf...>
 import { readFileSync } from "node:fs";
 import * as mupdf from "mupdf";
-import { redactPdf } from "../src/redact.js";
+import { detectLearned, redactPdf } from "../src/redact.js";
 
 function remainingText(bytes) {
   const doc = mupdf.Document.openDocument(bytes, "application/pdf");
@@ -24,10 +24,14 @@ if (!files.length) {
   process.exit(2);
 }
 
+// Batch pass 1: names/addresses learned from any file are shared with all.
+const inputs = files.map((f) => new Uint8Array(readFileSync(f)));
+const shared = {};
+for (const input of inputs) Object.assign(shared, detectLearned(mupdf, input));
+
 let failed = false;
-for (const f of files) {
-  const input = new Uint8Array(readFileSync(f));
-  const res = redactPdf(mupdf, input, { verify: true });
+for (const [n, f] of files.entries()) {
+  const res = redactPdf(mupdf, inputs[n], { verify: true, shared });
   console.log(`\n=== ${f} ===`);
   console.log("Detected PII:");
   const entries = Object.entries(res.detected);

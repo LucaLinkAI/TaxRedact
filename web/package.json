@@ -11,7 +11,8 @@
     "test:node": "node test/node_check.mjs"
   },
   "dependencies": {
-    "mupdf": "^1.27.0"
+    "fflate": "^0.8.3",
+    "mupdf": "~1.28.1"
   },
   "devDependencies": {
     "vite": "^5.4.0"
