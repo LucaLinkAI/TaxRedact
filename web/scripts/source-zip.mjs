@@ -6,8 +6,11 @@
 import { execFileSync } from "node:child_process";
 import { mkdirSync } from "node:fs";
 
-const git = (...args) => execFileSync("git", args, { encoding: "utf8" }).trim();
 const downloads = new URL("../public/downloads/", import.meta.url).pathname;
+// Run from the repo root: from web/, `git archive HEAD` would only take web/.
+const top = execFileSync("git", ["rev-parse", "--show-toplevel"], {
+  cwd: new URL(".", import.meta.url).pathname, encoding: "utf8" }).trim();
+const git = (...args) => execFileSync("git", args, { cwd: top, encoding: "utf8" }).trim();
 
 mkdirSync(downloads, { recursive: true });
 const sha = git("rev-parse", "--short", "HEAD");
