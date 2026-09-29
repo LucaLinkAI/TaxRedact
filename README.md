@@ -24,7 +24,7 @@ output text layer.
 - **Letter-style address blocks** (e.g. a K-1 package cover letter):
   `Name / street / City, ST ZIP`
 - Every name and address found is then chased through every page: the full
-  string, and also **each name word on its own** (so "Dear Kevin" is caught).
+  string, and also **each name word on its own** (so "Dear Jane" is caught).
   Single words only match whole, capitalized words, so a name like "Will"
   doesn't remove the verb "will". Business names (such as the partnership on a
   K-1) and dollar amounts are kept.

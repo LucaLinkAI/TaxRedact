@@ -42,6 +42,14 @@ those files to `public/downloads/` (gitignored, generated). If you use Git
 integration, keep the Pages build command as `npm run build` and the prebuild
 handles it.
 
+## Source code download
+
+The page also offers `downloads/taxredact-source.zip`. The prebuild creates it
+with `scripts/source-zip.mjs` as a `git archive` of `HEAD`, so it contains
+only committed files: no gitignored tax PDFs, `node_modules`, builds or
+uncommitted edits. **Commit before building** (the script warns if the tree
+is dirty). The commit hash shown on the page comes from `vite.config.js`.
+
 ## Develop locally
 
 ```bash

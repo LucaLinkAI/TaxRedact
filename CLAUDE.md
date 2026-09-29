@@ -47,6 +47,11 @@ download. esbuild stubs `react-devtools-core`: Ink imports it statically, and
 the bundle breaks without the stub. Test the `.tgz` by installing it outside
 the repo, never only from inside it.
 
+The site also serves `downloads/taxredact-source.zip` (`web/scripts/source-zip.mjs`,
+a `git archive` of HEAD), so **every committed file is public**. Never put real
+client names, addresses or numbers in code, comments, docs or commit-tracked
+fixtures. Use made-up examples ("Jane Doe", "Springfield, IL 62704").
+
 ### Web
 ```bash
 cd web

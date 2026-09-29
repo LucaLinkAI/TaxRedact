@@ -34,7 +34,7 @@ WHAT GETS REDACTED
   Schedule K-1:      partner / shareholder / beneficiary name, street, city, ZIP
   Cover letters:     "Name / street / City, ST ZIP" address blocks
   Then everywhere:   each name found is also removed word by word (so a first
-                     name on its own, e.g. "Dear Kevin", is caught), along with
+                     name on its own, e.g. "Dear Jane", is caught), along with
                      the street, city and ZIP.
 
   Business names (e.g. the partnership on a K-1) and dollar amounts are kept,

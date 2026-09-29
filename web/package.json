@@ -9,7 +9,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "test:node": "node test/node_check.mjs",
-    "prebuild": "cd ../cli && npm install --no-audit --no-fund --silent && npm run -s build"
+    "prebuild": "cd ../cli && npm install --no-audit --no-fund --silent && npm run -s build && cd ../web && node scripts/source-zip.mjs"
   },
   "dependencies": {
     "fflate": "^0.8.3",

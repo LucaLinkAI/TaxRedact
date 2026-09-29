@@ -261,4 +261,18 @@ go.addEventListener("click", async () => {
     }));
 }
 
+// --- source code download ---------------------------------------------------------
+// taxredact-source.zip is a git archive of the commit this page was built from.
+{
+  /* global __SOURCE__ */
+  const { sha, date } = __SOURCE__;
+  if (sha) $("srcVer").textContent = `commit ${sha}${date ? `, ${date}` : ""}`;
+  fetch($("dlSrc").href, { method: "HEAD" })
+    .then((r) => {
+      const n = Number(r.headers.get("content-length"));
+      if (r.ok && n) $("srcSize").textContent = `${Math.max(1, Math.round(n / 1024))} KB`;
+    })
+    .catch(() => {});
+}
+
 render();

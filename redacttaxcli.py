@@ -15,7 +15,7 @@ Detects:
   * Letter-style address blocks (cover letters): name line, street, city/ZIP
   Names and addresses found anywhere are then chased through every page (and,
   in a batch, every file): full strings, and each name word on its own, so a
-  first name alone ("Dear Kevin") is caught too.
+  first name alone ("Dear Jane") is caught too.
 
 Examples:
   RedactTaxCLI return.pdf
@@ -137,9 +137,9 @@ def _detect_header(doc):
 
 
 # --- learned PII: names and addresses, matched word-by-word ---------------
-# Learned values are stored as normalized token phrases ("kevin liantono") so
-# they match regardless of case, punctuation, or spacing ("Seattle, WA  98107"
-# vs "SEATTLE WA 98107"). Single tokens only match whole, capitalized words, so
+# Learned values are stored as normalized token phrases ("jane doe") so
+# they match regardless of case, punctuation, or spacing ("Springfield, IL  62704"
+# vs "SPRINGFIELD IL 62704"). Single tokens only match whole, capitalized words, so
 # a first name like "Will" doesn't wipe out the verb "will".
 
 US_STATES = set("""AL AK AZ AR CA CO CT DE DC FL GA HI ID IL IN IA KS KY LA ME MD MA

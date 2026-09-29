@@ -163,7 +163,7 @@ function detectHeader(doc) {
 
 // --- learned PII: names and addresses, matched word-by-word -----------------
 // Mirrors redacttaxcli.py. Learned values are stored as normalized token
-// phrases ("kevin liantono") so they match regardless of case, punctuation or
+// phrases ("jane doe") so they match regardless of case, punctuation or
 // spacing. Single tokens only match whole, capitalized words, so a first name
 // like "Will" doesn't wipe out the verb "will".
 
