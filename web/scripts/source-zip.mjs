@@ -8,8 +8,16 @@ import { mkdirSync } from "node:fs";
 
 const downloads = new URL("../public/downloads/", import.meta.url).pathname;
 // Run from the repo root: from web/, `git archive HEAD` would only take web/.
-const top = execFileSync("git", ["rev-parse", "--show-toplevel"], {
-  cwd: new URL(".", import.meta.url).pathname, encoding: "utf8" }).trim();
+let top;
+try {
+  top = execFileSync("git", ["rev-parse", "--show-toplevel"], {
+    cwd: new URL(".", import.meta.url).pathname, encoding: "utf8",
+    stdio: ["ignore", "pipe", "ignore"] }).trim();
+} catch {
+  // e.g. building from the downloaded source zip, which has no .git
+  console.warn("source-zip: not a git checkout; skipping taxredact-source.zip");
+  process.exit(0);
+}
 const git = (...args) => execFileSync("git", args, { cwd: top, encoding: "utf8" }).trim();
 
 mkdirSync(downloads, { recursive: true });
